@@ -4,8 +4,8 @@
 :root {
   --bg: #000000;
   --bg2: #080808;
-  --surface: #0e0e0e;
-  --surface2: #141414;
+  --surface: rgba(10,10,10,0.85);
+  --surface2: rgba(20,20,20,0.9);
   --border: #2a2a2a;
   --border-glow: #00ff41;
   --accent: #00ff41;
@@ -13,8 +13,8 @@
   --accent3: #39ff14;
   --text: #f0f0f0;
   --text-muted: #666666;
-  --user-bubble: #1a1a1a;
-  --assistant-bubble: #0a0a0a;
+  --user-bubble: rgba(26,26,26,0.9);
+  --assistant-bubble: rgba(10,10,10,0.9);
   --glow: rgba(0, 255, 65, 0.2);
   --glow2: rgba(255, 255, 255, 0.05);
   --font-display: 'Syne', sans-serif;
@@ -24,7 +24,7 @@
 /* ── Reset ──────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  background: var(--bg);
+  background: #000000;
   color: var(--text);
   font-family: var(--font-mono);
   min-height: 100vh;
@@ -42,14 +42,7 @@ body {
 }
 
 .bg-grid {
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(0,255,65,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,255,65,0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
-  z-index: 0;
-  pointer-events: none;
+  display: none;
 }
 
 .bg-image {
@@ -58,7 +51,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.18;
+  opacity: 0.75;
   z-index: 0;
   pointer-events: none;
 }
@@ -66,17 +59,7 @@ body {
 .bg-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
-  z-index: 0;
-  pointer-events: none;
-}
-
-.bg-glow {
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 60% 40% at 30% 20%, rgba(0,255,65,0.06) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 40% at 80% 80%, rgba(255,255,255,0.03) 0%, transparent 70%);
+  background: rgba(0,0,0,0.25);
   z-index: 0;
   pointer-events: none;
 }
@@ -91,14 +74,15 @@ body {
   max-height: 860px;
   display: flex;
   flex-direction: column;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: rgba(8,8,8,0.82);
+  border: 1px solid rgba(0,255,65,0.2);
   border-radius: 20px;
   overflow: hidden;
   box-shadow:
     0 0 0 1px rgba(0,255,65,0.08),
     0 0 60px rgba(0,255,65,0.06),
     0 30px 80px rgba(0,0,0,0.8);
+  backdrop-filter: blur(12px);
 }
 
 /* ── Header ─────────────────────────────────────── */
@@ -108,7 +92,7 @@ body {
   justify-content: space-between;
   padding: 16px 24px;
   border-bottom: 1px solid var(--border);
-  background: linear-gradient(135deg, #0a0a0a 0%, #050505 100%);
+  background: rgba(5,5,5,0.9);
 }
 
 /* ── Siggy Avatar ───────────────────────────────── */
@@ -298,14 +282,14 @@ body {
 }
 
 .message.user .message-text {
-  background: var(--user-bubble);
+  background: rgba(26,26,26,0.95);
   border: 1px solid #2a2a2a;
   border-bottom-right-radius: 4px;
   color: #ffffff;
 }
 
 .message.assistant .message-text {
-  background: var(--assistant-bubble);
+  background: rgba(10,10,10,0.95);
   border: 1px solid #1a2e1a;
   border-bottom-left-radius: 4px;
   color: var(--text);
@@ -325,7 +309,7 @@ body {
   align-items: center;
   gap: 10px;
   padding: 10px 16px;
-  background: var(--assistant-bubble);
+  background: rgba(10,10,10,0.95);
   border: 1px solid #1a2e1a;
   border-radius: 16px;
   border-bottom-left-radius: 4px;
@@ -407,7 +391,7 @@ body {
 .chat-input-area {
   padding: 16px 20px;
   border-top: 1px solid var(--border);
-  background: #080808;
+  background: rgba(5,5,5,0.95);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -417,7 +401,7 @@ body {
   display: flex;
   align-items: flex-end;
   gap: 10px;
-  background: var(--surface2);
+  background: rgba(20,20,20,0.9);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 10px 12px;

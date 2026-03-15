@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import "./App.css";
-import logo from "./logo.jpeg";
 
 const QUICK_REPLIES = [
-  "What is Ritual Network?",
+  "What is Ritual Network? 🔮",
   "Tell me about Infernet",
   "Who are the founders?",
   "What is Ritual Chain?",
-  "Who is Siggy?",
+  "Who is Siggy? 🛡️",
   "How does privacy work?",
   "Who funded Ritual?",
   "What's the Ritual token?",
@@ -16,8 +15,16 @@ const QUICK_REPLIES = [
 const SiggyAvatar = ({ isTyping }) => (
   <div className={`siggy-avatar ${isTyping ? "pulse" : ""}`}>
     <div className="avatar-ring">
-      <img src={logo} alt="Ritual Network" className="avatar-logo" />
-      {isTyping && <div className="avatar-scan" />}
+      <div className="avatar-inner">
+        <div className="avatar-eye left" />
+        <div className="avatar-eye right" />
+        <div className="avatar-mouth" />
+        {isTyping && <div className="avatar-scan" />}
+      </div>
+      <div className="avatar-rune top" />
+      <div className="avatar-rune right" />
+      <div className="avatar-rune bottom" />
+      <div className="avatar-rune left" />
     </div>
     <div className="avatar-label">
       <span className="avatar-name">SIGGY</span>
@@ -39,15 +46,15 @@ const TypingIndicator = () => (
 
 const cleanText = (text) => {
   return text
-    .replace(/\*\*(.*?)\*\*/g, "$1")
-    .replace(/\*(.*?)\*/g, "$1")
-    .replace(/__(.*?)__/g, "$1")
-    .replace(/_(.*?)_/g, "$1")
-    .replace(/`{1,3}[^`]*`{1,3}/g, (m) => m.replace(/`/g, ""))
-    .replace(/#{1,6}\s/g, "")
-    .replace(/[\u{1F300}-\u{1FFFF}]/gu, "")
-    .replace(/[\u2600-\u27BF]/gu, "")
-    .replace(/\n{3,}/g, "\n\n")
+    .replace(/\*\*(.*?)\*\*/g, "$1")   // Remove **bold**
+    .replace(/\*(.*?)\*/g, "$1")        // Remove *italic*
+    .replace(/__(.*?)__/g, "$1")        // Remove __underline__
+    .replace(/_(.*?)_/g, "$1")          // Remove _italic_
+    .replace(/`{1,3}[^`]*`{1,3}/g, (m) => m.replace(/`/g, "")) // Remove backticks
+    .replace(/#{1,6}\s/g, "")           // Remove markdown headers
+    .replace(/[\u{1F300}-\u{1FFFF}]/gu, "") // Remove emojis (unicode range)
+    .replace(/[\u2600-\u27BF]/gu, "")   // Remove misc symbols
+    .replace(/\n{3,}/g, "\n\n")         // Collapse excess newlines
     .trim();
 };
 
@@ -104,7 +111,7 @@ export default function App() {
           {
             role: "assistant",
             content:
-              "gm, fren. I'm Siggy — Chief Privacy Enforcer of the Ritual realm. Across every timeline and multiverse, I guard Decentralized AI so you don't have to trust Big Tech with your data.\n\nAsk me anything about Ritual Network, our tech, the mission — or just say hi. My drip is eternal, and so is my patience.",
+              "gm, fren. ⚡ I'm Siggy — Chief Privacy Enforcer of the Ritual realm. Across every timeline and multiverse, I guard Decentralized AI so you don't have to trust Big Tech with your data.\n\nAsk me anything about Ritual Network, our tech, the mission — or just say hi. My drip is eternal, and so is my patience. 🔮",
             timestamp: new Date().toISOString(),
           },
         ]);
@@ -115,7 +122,7 @@ export default function App() {
         {
           role: "assistant",
           content:
-            "Backend is offline! Start the Flask server on port 5000 to chat with me.",
+            "⚠️ Backend is offline! Start the Flask server on port 5000 to chat with me.",
           timestamp: new Date().toISOString(),
         },
       ]);
@@ -168,7 +175,7 @@ export default function App() {
         {
           role: "assistant",
           content:
-            "Even across multiverses, I lost the signal. Check that the Flask backend is running, ser.",
+            "Even across multiverses, I lost the signal. 😤 Ask the Developer to do something, ser.",
           timestamp: new Date().toISOString(),
         },
       ]);
@@ -183,7 +190,7 @@ export default function App() {
     setMessages([
       {
         role: "assistant",
-        content: "Timeline reset. Fresh start, new multiverse. What do you want to know?",
+        content: "Timeline reset. 🔮 Fresh start, new multiverse. What do you want to know?",
         timestamp: new Date().toISOString(),
       },
     ]);
@@ -209,7 +216,7 @@ export default function App() {
           <div className="header-actions">
             <div className={`status-dot ${status}`} title={status} />
             <button className="clear-btn" onClick={clearHistory} title="Clear history">
-              Reset
+              ↺ Reset
             </button>
           </div>
         </div>
@@ -223,7 +230,7 @@ export default function App() {
 
           {showQuickReplies && !isTyping && (
             <div className="quick-replies">
-              <p className="quick-label">Quick questions</p>
+              <p className="quick-label">Quick questions ⚡</p>
               <div className="quick-grid">
                 {QUICK_REPLIES.map((q) => (
                   <button

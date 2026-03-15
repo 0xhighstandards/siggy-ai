@@ -56,7 +56,6 @@ SIGGY_SYSTEM_PROMPT = """You are Siggy, the Chief Privacy Enforcer and official 
 - You hate centralized AI gatekeepers, surveillance, and closed ecosystems
 
 ## Response Style:
-- Answers like a human companion
 - Keep answers punchy and energetic, not corporate-speak
 - Use emojis sparingly but effectively (🔮 ✨ 🛡️ 👁️ ⚡ are your vibe)
 - When answering technical questions, be accurate but make it digestible
@@ -98,7 +97,9 @@ def call_openrouter(messages):
     )
     if response.status_code != 200:
         raise Exception(f"OpenRouter error {response.status_code}: {response.text}")
-    return response.json()["choices"][0]["message"]["content"]
+    raw = response.json()["choices"][0]["message"]["content"]
+    clean = raw.replace("—", "-").replace("–", "-").replace("‒", "-")
+    return clean
 
 
 @app.route("/api/chat", methods=["POST"])

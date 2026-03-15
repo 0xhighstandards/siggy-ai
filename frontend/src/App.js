@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import logo from "./logo.jpeg";
 
+const API_URL = "https://siggy-ai-backend.up.railway.app";
+
 const QUICK_REPLIES = [
   "What is Ritual Network?",
   "Tell me about Infernet",
@@ -94,7 +96,7 @@ export default function App() {
 
   const fetchHistory = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/history");
+      const res = await fetch(`${API_URL}/api/history`);
       const data = await res.json();
       if (data.history && data.history.length > 0) {
         setMessages(data.history);
@@ -144,7 +146,7 @@ export default function App() {
         .slice(-10)
         .map((m) => ({ role: m.role, content: m.content }));
 
-      const res = await fetch("http://localhost:5000/api/chat", {
+      const res = await fetch(`${API_URL}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -179,7 +181,7 @@ export default function App() {
   };
 
   const clearHistory = async () => {
-    await fetch("http://localhost:5000/api/history", { method: "DELETE" });
+    await fetch(`${API_URL}/api/history`, { method: "DELETE" });
     setMessages([
       {
         role: "assistant",

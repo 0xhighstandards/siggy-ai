@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import logo from "./logo.jpeg";
 import bg from "./ritualnetbg.jpeg";
+import siggy from "./siggy.jpeg";
 
 const API_URL = "https://siggy-ai-backend.up.railway.app";
 
@@ -95,8 +96,8 @@ const Message = ({ msg }) => {
   return (
     <div className={`message ${isUser ? "user" : "assistant"}`}>
       {!isUser && (
-        <div className="msg-badge">
-          <span>S</span>
+        <div className="msg-badge-img">
+          <img src={siggy} alt="Siggy" />
         </div>
       )}
       <div className="message-bubble">

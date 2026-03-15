@@ -118,7 +118,7 @@ export default function App() {
         {
           role: "assistant",
           content:
-            "⚠️ Backend is offline! Start the Flask server on port 5000 to chat with me.",
+            "⚠️ Backend is offline! Ask the Developer to do something, ser.",
           timestamp: new Date().toISOString(),
         },
       ]);

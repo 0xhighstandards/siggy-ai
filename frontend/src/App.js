@@ -40,6 +40,16 @@ const TypingIndicator = () => (
   </div>
 );
 
+const renderText = (text) => {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>;
+    }
+    return <span key={i}>{part}</span>;
+  });
+};
+
 const Message = ({ msg }) => {
   const isUser = msg.role === "user";
   return (
@@ -50,7 +60,11 @@ const Message = ({ msg }) => {
         </div>
       )}
       <div className="message-bubble">
-        <div className="message-text">{msg.content}</div>
+        <div className="message-text">
+          {msg.content.split("\n").map((line, i) => (
+            <div key={i}>{renderText(line)}</div>
+          ))}
+        </div>
         {msg.timestamp && (
           <div className="message-time">
             {new Date(msg.timestamp).toLocaleTimeString([], {

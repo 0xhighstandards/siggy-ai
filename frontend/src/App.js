@@ -156,7 +156,7 @@ export default function App() {
       setMessages([
         {
           role: "assistant",
-          content: "⚠️ Backend is offline! Ask the Developer to do something, ser.",
+          content: "⚠️ Backend is offline! Ask the Developer to do something, ser.\n\n*Can Devs do something? 😭*",
           timestamp: new Date().toISOString(),
         },
       ]);
@@ -208,7 +208,7 @@ export default function App() {
         ...prev,
         {
           role: "assistant",
-          content: "Even across multiverses, I lost the signal. 😤 Ask the Developer to do something, ser.",
+          content: "Even across multiverses, I lost the signal. 😤 Ask the Developer to do something, ser.\n\n*Can Devs do something? 😭*",
           timestamp: new Date().toISOString(),
         },
       ]);

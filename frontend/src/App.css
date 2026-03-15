@@ -123,8 +123,8 @@ body {
 }
 
 .avatar-logo {
-  width: 42px;
-  height: 42px;
+  width: 47px;
+  height: 47px;
   object-fit: contain;
   border-radius: 50%;
   filter: drop-shadow(0 0 4px #00ff41);
@@ -259,8 +259,8 @@ body {
 }
 
 .msg-badge-img {
-  width: 38px;
-  height: 38px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;

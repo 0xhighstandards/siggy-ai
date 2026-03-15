@@ -40,13 +40,53 @@ const TypingIndicator = () => (
   </div>
 );
 
-const renderText = (text) => {
-  const parts = text.split(/(\*\*.*?\*\*)/g);
+const renderInline = (text) => {
+  const parts = text.split(/(\*\*.*?\*\*|\*.*?\*|`[^`]+`|~~.*?~~)/g);
   return parts.map((part, i) => {
-    if (part.startsWith("**") && part.endsWith("**")) {
+    if (part.startsWith("**") && part.endsWith("**"))
       return <strong key={i}>{part.slice(2, -2)}</strong>;
-    }
+    if (part.startsWith("*") && part.endsWith("*"))
+      return <em key={i}>{part.slice(1, -1)}</em>;
+    if (part.startsWith("`") && part.endsWith("`"))
+      return <code key={i} className="inline-code">{part.slice(1, -1)}</code>;
+    if (part.startsWith("~~") && part.endsWith("~~"))
+      return <s key={i}>{part.slice(2, -2)}</s>;
     return <span key={i}>{part}</span>;
+  });
+};
+
+const renderContent = (content) => {
+  const lines = content.split("\n");
+  return lines.map((line, i) => {
+    if (line.startsWith("### "))
+      return <h3 key={i} className="msg-h3">{renderInline(line.slice(4))}</h3>;
+    if (line.startsWith("## "))
+      return <h2 key={i} className="msg-h2">{renderInline(line.slice(3))}</h2>;
+    if (line.startsWith("# "))
+      return <h1 key={i} className="msg-h1">{renderInline(line.slice(2))}</h1>;
+    if (line.match(/^[-*] /))
+      return (
+        <div key={i} className="msg-bullet">
+          <span className="bullet-dot">▸</span>
+          <span>{renderInline(line.slice(2))}</span>
+        </div>
+      );
+    if (line.match(/^\d+\. /)) {
+      const num = line.match(/^(\d+)\. /)[1];
+      return (
+        <div key={i} className="msg-numbered">
+          <span className="num-dot">{num}.</span>
+          <span>{renderInline(line.slice(num.length + 2))}</span>
+        </div>
+      );
+    }
+    if (line.startsWith("> "))
+      return <blockquote key={i} className="msg-blockquote">{renderInline(line.slice(2))}</blockquote>;
+    if (line.match(/^---+$/))
+      return <hr key={i} className="msg-hr" />;
+    if (line.trim() === "")
+      return <div key={i} className="msg-spacer" />;
+    return <p key={i} className="msg-p">{renderInline(line)}</p>;
   });
 };
 
@@ -61,9 +101,7 @@ const Message = ({ msg }) => {
       )}
       <div className="message-bubble">
         <div className="message-text">
-          {msg.content.split("\n").map((line, i) => (
-            <div key={i}>{renderText(line)}</div>
-          ))}
+          {isUser ? msg.content : renderContent(msg.content)}
         </div>
         {msg.timestamp && (
           <div className="message-time">
@@ -117,8 +155,7 @@ export default function App() {
       setMessages([
         {
           role: "assistant",
-          content:
-            "⚠️ Backend is offline! Ask the Developer to do something, ser.",
+          content: "⚠️ Backend is offline! Ask the Developer to do something, ser.",
           timestamp: new Date().toISOString(),
         },
       ]);
@@ -170,8 +207,7 @@ export default function App() {
         ...prev,
         {
           role: "assistant",
-          content:
-            "Even across multiverses, I lost the signal. 😤 Ask the Developer to do something, ser.",
+          content: "Even across multiverses, I lost the signal. 😤 Ask the Developer to do something, ser.",
           timestamp: new Date().toISOString(),
         },
       ]);
@@ -207,7 +243,6 @@ export default function App() {
       <div className="bg-overlay" />
 
       <div className="chat-container">
-        {/* Header */}
         <div className="chat-header">
           <SiggyAvatar isTyping={isTyping} />
           <div className="header-actions">
@@ -218,7 +253,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* Messages */}
         <div className="messages-area">
           {messages.map((msg, i) => (
             <Message key={i} msg={msg} />
@@ -245,7 +279,6 @@ export default function App() {
           <div ref={bottomRef} />
         </div>
 
-        {/* Input */}
         <div className="chat-input-area">
           <div className="input-wrapper">
             <textarea

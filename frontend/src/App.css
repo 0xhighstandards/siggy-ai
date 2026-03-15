@@ -474,3 +474,94 @@ body {
   .chat-container { height: 100vh; max-height: 100vh; border-radius: 0; }
   .message-bubble { max-width: 85%; }
 }
+
+/* ── Message Typography ─────────────────────────── */
+.msg-h1 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: 1px;
+  margin: 8px 0 4px;
+}
+.msg-h2 {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  margin: 6px 0 3px;
+}
+.msg-h3 {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 4px 0 2px;
+}
+.msg-p {
+  margin: 2px 0;
+  line-height: 1.65;
+}
+.msg-bullet {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 3px 0;
+}
+.bullet-dot {
+  color: var(--accent);
+  font-size: 10px;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+.msg-numbered {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 3px 0;
+}
+.num-dot {
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 18px;
+}
+.msg-blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 4px 10px;
+  margin: 6px 0;
+  color: #aaaaaa;
+  font-style: italic;
+  background: rgba(0,255,65,0.04);
+  border-radius: 0 6px 6px 0;
+}
+.msg-hr {
+  border: none;
+  border-top: 1px solid #2a2a2a;
+  margin: 8px 0;
+}
+.msg-spacer {
+  height: 6px;
+}
+.message-text strong {
+  color: #00ff41;
+  font-weight: 700;
+}
+.message-text em {
+  color: #cccccc;
+  font-style: italic;
+}
+.message-text s {
+  color: #666666;
+  text-decoration: line-through;
+}
+.inline-code {
+  background: rgba(0,255,65,0.1);
+  color: var(--accent);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  border: 1px solid rgba(0,255,65,0.2);
+}

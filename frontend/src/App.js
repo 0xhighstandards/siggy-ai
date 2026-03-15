@@ -146,7 +146,7 @@ export default function App() {
           {
             role: "assistant",
             content:
-              "gm, fren. ⚡ I'm Siggy — Chief Privacy Enforcer of the Ritual realm. Across every timeline and multiverse, I guard Decentralized AI so you don't have to trust Big Tech with your data.\n\nAsk me anything about Ritual Network, our tech, the mission — or just say hi. My drip is eternal, and so is my patience. 🔮",
+              "gm, fren. ⚡ I'm Siggy, Chief Privacy Enforcer of the Ritual realm. Across every timeline and multiverse, I guard Decentralized AI so you don't have to trust Big Tech with your data.\n\nAsk me anything about Ritual Network, our tech, the mission, or just say hi. My drip is eternal, and so is my patience. 😎",
             timestamp: new Date().toISOString(),
           },
         ]);

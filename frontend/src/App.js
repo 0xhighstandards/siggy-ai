@@ -10,7 +10,7 @@ const QUICK_REPLIES = [
   "Tell me about Infernet",
   "Who are the founders?",
   "What is Ritual Chain?",
-  "Who is Siggy? 🛡️",
+  "Who is Siggy? 🐱",
   "How does privacy work?",
   "Who funded Ritual?",
   "What's the Ritual token?",

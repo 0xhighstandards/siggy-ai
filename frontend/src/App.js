@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import "./App.css";
+import logo from "./logo.jpeg";
+
+const API_URL = "https://siggy-ai-backend.up.railway.app";
 
 const QUICK_REPLIES = [
   "What is Ritual Network? 🔮",
@@ -15,16 +18,8 @@ const QUICK_REPLIES = [
 const SiggyAvatar = ({ isTyping }) => (
   <div className={`siggy-avatar ${isTyping ? "pulse" : ""}`}>
     <div className="avatar-ring">
-      <div className="avatar-inner">
-        <div className="avatar-eye left" />
-        <div className="avatar-eye right" />
-        <div className="avatar-mouth" />
-        {isTyping && <div className="avatar-scan" />}
-      </div>
-      <div className="avatar-rune top" />
-      <div className="avatar-rune right" />
-      <div className="avatar-rune bottom" />
-      <div className="avatar-rune left" />
+      <img src={logo} alt="Ritual Network" className="avatar-logo" />
+      {isTyping && <div className="avatar-scan" />}
     </div>
     <div className="avatar-label">
       <span className="avatar-name">SIGGY</span>
@@ -46,15 +41,13 @@ const TypingIndicator = () => (
 
 const cleanText = (text) => {
   return text
-    .replace(/\*\*(.*?)\*\*/g, "$1")   // Remove **bold**
-    .replace(/\*(.*?)\*/g, "$1")        // Remove *italic*
-    .replace(/__(.*?)__/g, "$1")        // Remove __underline__
-    .replace(/_(.*?)_/g, "$1")          // Remove _italic_
-    .replace(/`{1,3}[^`]*`{1,3}/g, (m) => m.replace(/`/g, "")) // Remove backticks
-    .replace(/#{1,6}\s/g, "")           // Remove markdown headers
-    .replace(/[\u{1F300}-\u{1FFFF}]/gu, "") // Remove emojis (unicode range)
-    .replace(/[\u2600-\u27BF]/gu, "")   // Remove misc symbols
-    .replace(/\n{3,}/g, "\n\n")         // Collapse excess newlines
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/\*(.*?)\*/g, "$1")
+    .replace(/__(.*?)__/g, "$1")
+    .replace(/_(.*?)_/g, "$1")
+    .replace(/`{1,3}[^`]*`{1,3}/g, (m) => m.replace(/`/g, ""))
+    .replace(/#{1,6}\s/g, "")
+    .replace(/\n{3,}/g, "\n\n")
     .trim();
 };
 
@@ -101,7 +94,7 @@ export default function App() {
 
   const fetchHistory = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/history");
+      const res = await fetch(`${API_URL}/api/history`);
       const data = await res.json();
       if (data.history && data.history.length > 0) {
         setMessages(data.history);
@@ -151,7 +144,7 @@ export default function App() {
         .slice(-10)
         .map((m) => ({ role: m.role, content: m.content }));
 
-      const res = await fetch("http://localhost:5000/api/chat", {
+      const res = await fetch(`${API_URL}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -186,7 +179,7 @@ export default function App() {
   };
 
   const clearHistory = async () => {
-    await fetch("http://localhost:5000/api/history", { method: "DELETE" });
+    await fetch(`${API_URL}/api/history`, { method: "DELETE" });
     setMessages([
       {
         role: "assistant",

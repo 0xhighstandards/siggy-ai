@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import logo from "./logo.jpeg";
+import bg from "./ritualnetbg.jpeg";
 
 const API_URL = "https://siggy-ai-backend.up.railway.app";
 
@@ -188,7 +189,8 @@ export default function App() {
   return (
     <div className="app">
       <div className="bg-grid" />
-      <div className="bg-glow" />
+      <div className="bg-image" style={{ backgroundImage: `url(${bg})` }} />
+      <div className="bg-overlay" />
 
       <div className="chat-container">
         {/* Header */}

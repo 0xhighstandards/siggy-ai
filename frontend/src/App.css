@@ -52,6 +52,25 @@ body {
   pointer-events: none;
 }
 
+.bg-image {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.18;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 0;
+  pointer-events: none;
+}
+
 .bg-glow {
   position: fixed;
   inset: 0;

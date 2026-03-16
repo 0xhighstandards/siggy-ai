@@ -303,6 +303,7 @@ export default function App() {
             <p className="hero-subtitle">
               Your guide to Ritual Network, an open AI infrastructure connecting AI and blockchain. Ask Siggy anything, she knows everything.
             </p>
+            <p className="hero-lowersubtitle">Ritual Network Key Features</p>
           </div>
 
           <div className="hero-divider" />

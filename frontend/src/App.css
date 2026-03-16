@@ -120,6 +120,10 @@ body {
   font-weight: 400;
 }
 
+.hero-grid-desc:hover {
+  color: #999999;
+}
+
 /* ── Nav ────────────────────────────────────────── */
 .landing-nav {
   position: fixed;

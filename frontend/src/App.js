@@ -362,10 +362,13 @@ export default function App() {
       </main>
 
       {/* FOOTER */}
-      <footer className="landing-footer">
-        <span>© 2026</span>
-        <a href="mailto:hello@ritual.net" className="footer-email">hello@ritual.net</a>
-      </footer>
+        <footer className="landing-footer">
+          <span>© 2026</span>
+          <span className="footer-credit">
+            Built by <a href="https://x.com/0xhghstndrds" target="_blank" rel="noreferrer" className="footer-name">0xhighstandards</a>
+          </span>
+          <a href="mailto:hello@ritual.net" className="footer-email">hello@ritual.net</a>
+        </footer>
 
       {chatOpen && <ChatModal onClose={closeChat} visible={chatVisible} />}
     </div>

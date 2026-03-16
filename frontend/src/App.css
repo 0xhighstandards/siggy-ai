@@ -571,3 +571,42 @@ body {
 .footer-name:hover {
   color: var(--accent);
 }
+
+/* ── Page Load Transition ───────────────────────── */
+
+.landing-nav {
+  animation: fadeDown 1.4s ease 0s both;
+}
+
+.landing-main {
+  animation: fadeUp 1.6s ease 0.2s both;
+}
+
+.hero-box {
+  animation: fadeUp 1.8s ease 0.3s both;
+}
+
+.landing-footer {
+  animation: fadeUp 1.5s ease 0.4s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Scroll bar hidden ───────────────────────── */
+
+.app {
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}

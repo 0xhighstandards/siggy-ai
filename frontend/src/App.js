@@ -51,7 +51,7 @@ const SiggyAvatar = ({ isTyping }) => (
       {isTyping && <div className="avatar-scan" />}
     </div>
     <div className="avatar-label">
-      <span className="avatar-name">SIGGY</span>
+      <span className="avatar-name">Siggy</span>
       <span className="avatar-title">Chief Privacy Enforcer</span>
     </div>
   </div>

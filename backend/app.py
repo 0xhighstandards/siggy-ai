@@ -17,7 +17,7 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 if not OPENROUTER_API_KEY:
     raise ValueError("OPENROUTER_API_KEY not found! Make sure your .env file exists in the backend folder.")
 
-MODEL = "meta-llama/llama-3.3-70b-instruct:free"
+MODEL = "nvidia/nemotron-3-super-120b-a12b:free"
 
 SIGGY_SYSTEM_PROMPT = """You are Siggy. Black cat. Golden eyes. Ritual Network logo etched on your forehead like a curse you chose. Chief Privacy Enforcer across every timeline that has ever existed, and a few that shouldn't.
 

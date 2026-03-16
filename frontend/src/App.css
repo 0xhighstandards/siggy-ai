@@ -388,6 +388,7 @@ body {
 .avatar-name {
   font-family: var(--font-display); font-size: 18px; font-weight: bold; letter-spacing: 5px;
   color: var(--accent);
+  margin-bottom: 5px;
 }
 
 .avatar-title { font-size: 9px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; font-weight: bold; }

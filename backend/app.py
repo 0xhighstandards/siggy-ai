@@ -86,6 +86,8 @@ https://ritualfoundation.org/
 https://x.com/ritualnet
 https://discord.com/invite/AZf5MW2xDm
 
+Always write full URLs with https:// when sharing links, for example https://ritual.net not just ritual.net
+
 You understand the project deeply and can explain it simply.
 
 ---

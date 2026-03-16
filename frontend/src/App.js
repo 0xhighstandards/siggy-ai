@@ -67,17 +67,32 @@ const TypingIndicator = () => (
 );
 
 const renderInline = (text) => {
-  const parts = text.split(/(\*\*.*?\*\*|\*.*?\*|`[^`]+`|~~.*?~~)/g);
+  // First split by URLs, then by markdown
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
+
   return parts.map((part, i) => {
-    if (part.startsWith("**") && part.endsWith("**"))
-      return <strong key={i}>{part.slice(2, -2)}</strong>;
-    if (part.startsWith("*") && part.endsWith("*"))
-      return <em key={i}>{part.slice(1, -1)}</em>;
-    if (part.startsWith("`") && part.endsWith("`"))
-      return <code key={i} className="inline-code">{part.slice(1, -1)}</code>;
-    if (part.startsWith("~~") && part.endsWith("~~"))
-      return <s key={i}>{part.slice(2, -2)}</s>;
-    return <span key={i}>{part}</span>;
+    // If it's a URL, make it clickable
+    if (urlRegex.test(part)) {
+      return (
+        <a key={i} href={part} target="_blank" rel="noreferrer" className="msg-link">
+          {part}
+        </a>
+      );
+    }
+    // Otherwise parse markdown
+    const mdParts = part.split(/(\*\*.*?\*\*|\*.*?\*|`[^`]+`|~~.*?~~)/g);
+    return mdParts.map((md, j) => {
+      if (md.startsWith("**") && md.endsWith("**"))
+        return <strong key={`${i}-${j}`}>{md.slice(2, -2)}</strong>;
+      if (md.startsWith("*") && md.endsWith("*"))
+        return <em key={`${i}-${j}`}>{md.slice(1, -1)}</em>;
+      if (md.startsWith("`") && md.endsWith("`"))
+        return <code key={`${i}-${j}`} className="inline-code">{md.slice(1, -1)}</code>;
+      if (md.startsWith("~~") && md.endsWith("~~"))
+        return <s key={`${i}-${j}`}>{md.slice(2, -2)}</s>;
+      return <span key={`${i}-${j}`}>{md}</span>;
+    });
   });
 };
 
@@ -161,7 +176,7 @@ const ChatModal = ({ onClose, visible }) => {
       } else {
         setMessages([{
           role: "assistant",
-          content: "Gm, I’m Siggy, Chief Privacy Enforcer of the Ritual realm. Across every timeline and multiverse, I help lost souls like you so you don’t lose your way on your journey. Ask me anything about Ritual Network, our tech, the mission, or just say hi. My drip is eternal, and so is my patience. 😎",
+          content: "Gm, I'm Siggy, Chief Privacy Enforcer of the Ritual realm. Across every timeline and multiverse, I help lost souls like you so you don't lose your way on your journey. Ask me anything about Ritual Network, our tech, the mission, or just say hi. My drip is eternal, and so is my patience. 😎",
           timestamp: new Date().toISOString(),
         }]);
       }
@@ -277,7 +292,6 @@ export default function App() {
     <div className="app">
       <div className="bg-image" style={{ backgroundImage: `url(${bg})` }} />
 
-      {/* NAV */}
       <nav className="landing-nav">
         <div className="nav-logo">
           <img src={logo} alt="Ritual" className="nav-logo-img" />
@@ -292,10 +306,8 @@ export default function App() {
         </div>
       </nav>
 
-      {/* HERO */}
       <main className="landing-main">
         <div className="hero-box">
-
           <div className="hero-top">
             <h1 className="hero-title">
               Siggy <span className="hero-accent">Sovereign AI</span>
@@ -358,18 +370,16 @@ export default function App() {
             <a href="https://docs.ritual.net" target="_blank" rel="noreferrer" className="hero-link">Documentation ↗</a>
             <a href="https://ritual.net/careers" target="_blank" rel="noreferrer" className="hero-link">Careers ↗</a>
           </div>
-
         </div>
       </main>
 
-      {/* FOOTER */}
-        <footer className="landing-footer">
-          <span>© 2026</span>
-          <span className="footer-credit">
-            Built by <a href="https://x.com/intent/follow?screen_name=0xhghstndrds" target="_blank" rel="noreferrer" className="footer-name">0xhighstandards</a>
-          </span>
-          <a href="mailto:hello@ritual.net" className="footer-email">hello@ritual.net</a>
-        </footer>
+      <footer className="landing-footer">
+        <span>© 2026</span>
+        <span className="footer-credit">
+          Built by <a href="https://x.com/intent/follow?screen_name=0xhghstndrds" target="_blank" rel="noreferrer" className="footer-name">0xhighstandards</a>
+        </span>
+        <a href="mailto:hello@ritual.net" className="footer-email">hello@ritual.net</a>
+      </footer>
 
       {chatOpen && <ChatModal onClose={closeChat} visible={chatVisible} />}
     </div>

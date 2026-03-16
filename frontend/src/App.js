@@ -313,7 +313,7 @@ export default function App() {
               Siggy <span className="hero-accent">Sovereign AI</span>
             </h1>
             <p className="hero-subtitle">
-              Your guide to Ritual Network, an open AI infrastructure connecting AI and blockchain. Ask Siggy anything, she knows everything.
+              Your guide to Ritual Network. Ask Siggy anything, she helps lost souls navigate the world of decentralized AI.
             </p>
             <p className="hero-lowersubtitle">Ritual Network Key Features</p>
           </div>

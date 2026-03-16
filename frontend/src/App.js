@@ -313,7 +313,7 @@ export default function App() {
               Siggy <span className="hero-accent">Sovereign AI</span>
             </h1>
             <p className="hero-subtitle">
-              Your guide and friendly companion in the Ritual realm. Ask Siggy anything, she helps lost souls navigate the world of decentralized AI.
+              Your guide and friendly companion through the Ritual realm. Ask Siggy anything, she helps lost souls find their way in the world of decentralized AI.
             </p>
             <p className="hero-lowersubtitle">Ritual Network Key Features</p>
           </div>

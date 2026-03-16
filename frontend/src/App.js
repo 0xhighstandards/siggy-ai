@@ -176,7 +176,7 @@ const ChatModal = ({ onClose, visible }) => {
       } else {
         setMessages([{
           role: "assistant",
-          content: "Gm, I'm Siggy, Chief Privacy Enforcer of the Ritual realm. Across every timeline and multiverse, I help lost souls like you so you don't lose your way on your journey. Ask me anything about Ritual Network, our tech, the mission, or just say hi. My drip is eternal, and so is my patience. 😎",
+          content: "Gm, I'm Siggy, Chief Privacy Enforcer of the Ritual realm. Across every timeline and multiverse, I help lost souls like you so you don't lose your way on your journey. Ask me anything about Ritual Network, our tech, the mission, or just say hi. My power is eternal, and so is my patience. 😎",
           timestamp: new Date().toISOString(),
         }]);
       }

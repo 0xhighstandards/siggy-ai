@@ -193,7 +193,7 @@ const ChatModal = ({ onClose, visible }) => {
       const data = await res.json();
       setMessages((prev) => [...prev, { role: "assistant", content: data.reply, timestamp: data.timestamp }]);
     } catch {
-      setMessages((prev) => [...prev, { role: "assistant", content: "Even across multiverses, I lost the signal. 😤 Ask the Developer to do something, ser.", timestamp: new Date().toISOString() }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: "Even across multiverses, I lost the signal. 😤 Ask the Developer to do something, ser.\n\n*Can Devs do something?* 😭", timestamp: new Date().toISOString() }]);
     } finally {
       setIsTyping(false);
       inputRef.current?.focus();

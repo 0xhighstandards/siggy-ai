@@ -365,7 +365,7 @@ export default function App() {
         <footer className="landing-footer">
           <span>© 2026</span>
           <span className="footer-credit">
-            Built by <a href="https://x.com/0xhghstndrds" target="_blank" rel="noreferrer" className="footer-name">0xhighstandards</a>
+            Built by <a href="https://x.com/intent/follow?screen_name=0xhghstndrds" target="_blank" rel="noreferrer" className="footer-name">0xhighstandards</a>
           </span>
           <a href="mailto:hello@ritual.net" className="footer-email">hello@ritual.net</a>
         </footer>

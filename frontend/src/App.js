@@ -301,7 +301,7 @@ export default function App() {
               Siggy <span className="hero-accent">Sovereign AI</span>
             </h1>
             <p className="hero-subtitle">
-              Your guide to Ritual Network, the open and sovereign AI infrastructure merging AI with blockchain. Ask Siggy anything, she knows everything.
+              Your guide to Ritual Network, an open AI infrastructure connecting AI and blockchain. Ask Siggy anything, she knows everything.
             </p>
           </div>
 
@@ -318,13 +318,13 @@ export default function App() {
             <div className="hero-grid-item">
               <div>
                 <p className="hero-grid-title">Infernet SDK</p>
-                <p className="hero-grid-desc">Connect off-chain AI to on-chain smart contracts with a few lines of code.</p>
+                <p className="hero-grid-desc">Easily connect off-chain AI to on-chain smart contracts using just a few lines of code.</p>
               </div>
             </div>
             <div className="hero-grid-item">
               <div>
                 <p className="hero-grid-title">Ritual Chain</p>
-                <p className="hero-grid-desc">Purpose-built L1 blockchain for AI with EVM++ Sidecars for parallel execution.</p>
+                <p className="hero-grid-desc">A Layer-1 blockchain built for AI with EVM compatibility that can run multiple tasks at the same time.</p>
               </div>
             </div>
             <div className="hero-grid-item">
@@ -336,7 +336,7 @@ export default function App() {
             <div className="hero-grid-item">
               <div>
                 <p className="hero-grid-title">Meet Siggy</p>
-                <p className="hero-grid-desc">Chief Privacy Enforcer and black cat mascot. Her drip is eternal across every multiverse.</p>
+                <p className="hero-grid-desc">Our Chief Privacy Enforcer and the official mascot of Ritual Network.</p>
               </div>
             </div>
           </div>

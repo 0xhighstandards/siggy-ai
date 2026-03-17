@@ -44,6 +44,16 @@ const SOCIALS = [
   },
 ];
 
+// Generate or retrieve a unique session ID per browser
+const getSessionId = () => {
+  let sid = localStorage.getItem("siggy_session_id");
+  if (!sid) {
+    sid = "sess_" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+    localStorage.setItem("siggy_session_id", sid);
+  }
+  return sid;
+};
+
 const SiggyAvatar = ({ isTyping }) => (
   <div className={`siggy-avatar ${isTyping ? "pulse" : ""}`}>
     <div className="avatar-ring">
@@ -67,12 +77,9 @@ const TypingIndicator = () => (
 );
 
 const renderInline = (text) => {
-  // First split by URLs, then by markdown
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   const parts = text.split(urlRegex);
-
   return parts.map((part, i) => {
-    // If it's a URL, make it clickable
     if (urlRegex.test(part)) {
       return (
         <a key={i} href={part} target="_blank" rel="noreferrer" className="msg-link">
@@ -80,7 +87,6 @@ const renderInline = (text) => {
         </a>
       );
     }
-    // Otherwise parse markdown
     const mdParts = part.split(/(\*\*.*?\*\*|\*.*?\*|`[^`]+`|~~.*?~~)/g);
     return mdParts.map((md, j) => {
       if (md.startsWith("**") && md.endsWith("**"))
@@ -162,13 +168,14 @@ const ChatModal = ({ onClose, visible }) => {
   const [status, setStatus] = useState("online");
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
+  const sessionId = useRef(getSessionId());
 
   useEffect(() => { fetchHistory(); }, []);
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, isTyping]);
 
   const fetchHistory = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/history`);
+      const res = await fetch(`${API_URL}/api/history?session_id=${sessionId.current}`);
       const data = await res.json();
       if (data.history && data.history.length > 0) {
         setMessages(data.history);
@@ -203,7 +210,11 @@ const ChatModal = ({ onClose, visible }) => {
       const res = await fetch(`${API_URL}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: msgText, history: conversationHistory.slice(0, -1) }),
+        body: JSON.stringify({
+          message: msgText,
+          history: conversationHistory.slice(0, -1),
+          session_id: sessionId.current,
+        }),
       });
       const data = await res.json();
       setMessages((prev) => [...prev, { role: "assistant", content: data.reply, timestamp: data.timestamp }]);
@@ -216,7 +227,7 @@ const ChatModal = ({ onClose, visible }) => {
   };
 
   const clearHistory = async () => {
-    await fetch(`${API_URL}/api/history`, { method: "DELETE" });
+    await fetch(`${API_URL}/api/history?session_id=${sessionId.current}`, { method: "DELETE" });
     setMessages([{ role: "assistant", content: "Timeline reset. 🔮 Fresh start, new multiverse. What do you want to know?", timestamp: new Date().toISOString() }]);
     setShowQuickReplies(true);
   };

@@ -300,19 +300,34 @@ Butterflies still follow you everywhere.
 🐱🔮
 """
 
-CHAT_HISTORY_FILE = os.path.join(basedir, "chat_history.json")
+# Session-based history — each user gets their own folder
+SESSIONS_DIR = os.path.join(basedir, "sessions")
+os.makedirs(SESSIONS_DIR, exist_ok=True)
 
 
-def load_history():
-    if os.path.exists(CHAT_HISTORY_FILE):
-        with open(CHAT_HISTORY_FILE, "r") as f:
+def get_session_file(session_id):
+    safe_id = "".join(c for c in session_id if c.isalnum() or c in "-_")[:64]
+    return os.path.join(SESSIONS_DIR, f"{safe_id}.json")
+
+
+def load_session(session_id):
+    path = get_session_file(session_id)
+    if os.path.exists(path):
+        with open(path, "r") as f:
             return json.load(f)
     return []
 
 
-def save_history(history):
-    with open(CHAT_HISTORY_FILE, "w") as f:
+def save_session(session_id, history):
+    path = get_session_file(session_id)
+    with open(path, "w") as f:
         json.dump(history, f, indent=2)
+
+
+def clear_session(session_id):
+    path = get_session_file(session_id)
+    if os.path.exists(path):
+        os.remove(path)
 
 
 def call_openrouter(messages):
@@ -342,6 +357,7 @@ def chat():
     data = request.json
     user_message = data.get("message", "")
     conversation_history = data.get("history", [])
+    session_id = data.get("session_id", "default")
 
     if not user_message:
         return jsonify({"error": "No message provided"}), 400
@@ -353,22 +369,24 @@ def chat():
 
     assistant_reply = call_openrouter(messages)
 
-    history = load_history()
+    history = load_session(session_id)
     history.append({"role": "user", "content": user_message, "timestamp": datetime.now().isoformat()})
     history.append({"role": "assistant", "content": assistant_reply, "timestamp": datetime.now().isoformat()})
-    save_history(history)
+    save_session(session_id, history)
 
     return jsonify({"reply": assistant_reply, "timestamp": datetime.now().isoformat()})
 
 
 @app.route("/api/history", methods=["GET"])
 def get_history():
-    return jsonify({"history": load_history()})
+    session_id = request.args.get("session_id", "default")
+    return jsonify({"history": load_session(session_id)})
 
 
 @app.route("/api/history", methods=["DELETE"])
 def clear_history():
-    save_history([])
+    session_id = request.args.get("session_id", "default")
+    clear_session(session_id)
     return jsonify({"message": "History cleared"})
 
 

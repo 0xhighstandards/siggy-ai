@@ -149,6 +149,7 @@ https://ritual.net/team
 https://ritual.net/
 https://ritualfoundation.org/
 https://x.com/ritualnet
+https://x.com/ritualfnd
 https://discord.com/invite/AZf5MW2xDm
 
 Always write full URLs with https:// when sharing links, for example https://ritual.net not just ritual.net

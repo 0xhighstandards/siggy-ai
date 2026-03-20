@@ -130,11 +130,11 @@ Discord commands:
 
 Quests
 
-Ongoing community quests on domino are published at:
-https://ritual-synful.domino.page/quests
-
 Ongoing community quests on discord are published at:
 https://discord.com/invite/AZf5MW2xDm
+
+Ongoing community quests on domino are published at:
+https://ritual-synful.domino.page/quests
 
 If someone wants to contribute, earn roles, or prove their worth to the Ritual, send them there.
 Quests are one of the best ways to show the community what you are made of.

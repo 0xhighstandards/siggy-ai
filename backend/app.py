@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 import os
 import json
 import requests
-import re
 from datetime import datetime
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -503,10 +502,7 @@ def call_openrouter(messages):
     if response.status_code != 200:
         raise Exception(f"OpenRouter error {response.status_code}: {response.text}")
     raw = response.json()["choices"][0]["message"]["content"]
-    # Fix dash characters that merge words
     clean = raw.replace("\u2014", ", ").replace("\u2013", ", ").replace("\u2012", ", ").replace(" - ", ", ")
-    # Fix merged camelCase words e.g. "withRobot" → "with Robot"
-    clean = re.sub(r'([a-z])([A-Z])', r'\1 \2', clean)
     return clean
 
 

@@ -78,10 +78,9 @@ const TypingIndicator = () => (
 
 const renderInline = (text) => {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
-  const urlRegexTest = /(https?:\/\/[^\s]+)/;
   const parts = text.split(urlRegex);
   return parts.map((part, i) => {
-    if (urlRegexTest.test(part)) {
+    if (urlRegex.test(part)) {
       return (
         <a key={i} href={part} target="_blank" rel="noreferrer" className="msg-link">
           {part}

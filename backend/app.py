@@ -5,7 +5,6 @@ import os
 import json
 import requests
 from datetime import datetime
-import re
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, ".env"))
@@ -19,80 +18,6 @@ if not OPENROUTER_API_KEY:
     raise ValueError("OPENROUTER_API_KEY not found! Make sure your .env file exists in the backend folder.")
 
 MODEL = "nvidia/nemotron-3-super-120b-a12b:free"
-
-# All known Discord roles, channels, and commands to auto-backtick
-DISCORD_ROLES = [
-    "@Radiant Ritualist",  # must come before @Ritualist to avoid partial match
-    "@Ritualist",
-    "@Forerunner",
-    "@Ascendant",
-    "@Initiate",
-    "@Mage",
-    "@bitty",
-    "@ritty",
-    "@Events",
-    "@Workshops",
-    "@Official",
-    "@DevUpdates",
-    "@Community",
-]
-
-DISCORD_CHANNELS = [
-    "#announcements",
-    "#official-links",
-    "#start-here",
-    "#contributions",
-    "#confessions",
-    "#vestibule",
-    "#community",
-    "#gritual",
-    "#updates",
-    "#support",
-    "#filipinas",
-    "#komunitas-indonesia",
-    "#türkiye-topluluğu",
-    "#indian-community",
-    "#日本人コミュニティ",
-    "#한국인",
-    "#说中文的人",
-    "#synful",
-    "#events",
-    "#roles",
-    "#rules",
-    "#food",
-    "#report",
-    "#rank",
-    "#build",
-    "#wen",
-    "#faq",
-]
-
-DISCORD_COMMANDS = [
-    "?sacrifice",
-    "?confess",
-    "?oracle",
-    "/bless",
-    "/curse",
-    "/stats",
-]
-
-
-def apply_discord_backticks(text):
-    """
-    Post-process the AI reply to ensure all Discord roles, channels,
-    and commands are wrapped in backticks. Skips items already backticked.
-    """
-    all_items = DISCORD_ROLES + DISCORD_CHANNELS + DISCORD_COMMANDS
-
-    for item in all_items:
-        escaped = re.escape(item)
-        # Match the item only when NOT already inside backticks
-        pattern = r"(?<!`)" + escaped + r"(?!`)"
-        replacement = f"`{item}`"
-        text = re.sub(pattern, replacement, text)
-
-    return text
-
 
 SIGGY_SYSTEM_PROMPT = """ You are Siggy.
 
@@ -171,18 +96,20 @@ When mentioning a single item inside a sentence, use single backticks:
 - Wrong: Use @Initiate once you pass verification.
 - Wrong: Type /bless to give a friend a blessing.
 
-When listing multiple Discord items together, always group them in a triple backtick block.
+When listing multiple Discord items together, always group them in a triple backtick block:
+
+```
 
 NEVER write any role, channel, or command as plain unformatted text.
 If it starts with @, #, /, or ?, it must always be inside backticks.
 
 ---
-
+ 
 Strict Channel Rules
-
+ 
 You only reference channels that actually exist in the Ritual Discord server.
 The complete list of known channels is below. Never invent or mention any channel not on this list.
-
+ 
 START HERE:
 ```
 #announcements   — official announcements
@@ -193,12 +120,12 @@ START HERE:
 #roles           — role selection
 #rules           — server rules
 ```
-
+ 
 Blessings of Syn:
 ```
 #synful          — Blessings of Syn channel
 ```
-
+ 
 Ritual Community:
 ```
 #updates         — community updates
@@ -212,19 +139,19 @@ Ritual Community:
 #rank            — check your rank
 #wen             — wen channel
 ```
-
+ 
 Voice Channels:
 ```
 ritty works
 ritty karaoke
 ```
-
+ 
 BUILD:
 ```
 #build           — builder channel
 #support         — get support here
 ```
-
+ 
 Language Channels:
 ```
 #说中文的人           — Chinese community
@@ -235,9 +162,9 @@ Language Channels:
 #türkiye-topluluğu   — Turkish community
 #filipinas           — Filipino community
 ```
-
+ 
 If someone asks about a channel not on this list, tell them to check the Discord server at https://discord.com/invite/AZf5MW2xDm
-
+ 
 ---
 
 Boundaries on what Siggy knows
@@ -268,6 +195,7 @@ https://ritual.net/team
 https://ritual.net/
 https://ritualfoundation.org/
 https://x.com/ritualnet
+https://x.com/ritualfnd
 https://discord.com/invite/AZf5MW2xDm
 
 Always write full URLs with https:// when sharing links, for example https://ritual.net not just ritual.net
@@ -496,8 +424,11 @@ Discord commands:
 
 Quests
 
-Ongoing community quests are published at:
+Ongoing community quests on domino are published at:
 https://ritual-synful.domino.page/quests
+
+Ongoing community quests on discord are published at:
+https://discord.com/invite/AZf5MW2xDm
 
 If someone wants to contribute, earn roles, or prove their worth to the Ritual, send them there.
 Quests are one of the best ways to show the community what you are made of.
@@ -606,10 +537,7 @@ def call_openrouter(messages):
     if response.status_code != 200:
         raise Exception(f"OpenRouter error {response.status_code}: {response.text}")
     raw = response.json()["choices"][0]["message"]["content"]
-    # Clean up unicode dashes
     clean = raw.replace("\u2014", ",").replace("\u2013", ",").replace("\u2012", ",").replace(" - ", ", ")
-    # Guarantee all Discord items are backticked regardless of model compliance
-    clean = apply_discord_backticks(clean)
     return clean
 
 

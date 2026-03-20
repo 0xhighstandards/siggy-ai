@@ -76,6 +76,11 @@ const TypingIndicator = () => (
   </div>
 );
 
+const isCatAction = (text) => {
+  const trimmed = text.trim();
+  return trimmed.startsWith("~") && trimmed.endsWith("~");
+};
+
 const renderInline = (text) => {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   const parts = text.split(urlRegex);
@@ -91,8 +96,15 @@ const renderInline = (text) => {
     return mdParts.map((md, j) => {
       if (md.startsWith("**") && md.endsWith("**"))
         return <strong key={`${i}-${j}`}>{md.slice(2, -2)}</strong>;
-      if (md.startsWith("*") && md.endsWith("*"))
-        return <em key={`${i}-${j}`}>{md.slice(1, -1)}</em>;
+      if (md.startsWith("*") && md.endsWith("*")) {
+        const inner = md.slice(1, -1);
+        // Only render as italic if it's a cat action like *~ tilts head ~*
+        if (isCatAction(inner)) {
+          return <em key={`${i}-${j}`}>{inner}</em>;
+        }
+        // Otherwise just render the plain text, no italic
+        return <span key={`${i}-${j}`}>{inner}</span>;
+      }
       if (md.startsWith("`") && md.endsWith("`"))
         return <code key={`${i}-${j}`} className="inline-code">{md.slice(1, -1)}</code>;
       if (md.startsWith("~~") && md.endsWith("~~"))
@@ -189,7 +201,7 @@ const ChatModal = ({ onClose, visible }) => {
       }
     } catch {
       setStatus("offline");
-      setMessages([{ role: "assistant", content: "⚠️ Backend is offline! Ask the Developer to do something, ser.\n\n*Can Devs do something?* 😭", timestamp: new Date().toISOString() }]);
+      setMessages([{ role: "assistant", content: "⚠️ Backend is offline! Ask the Developer to do something, ser.\n\nCan Devs do something? 😭", timestamp: new Date().toISOString() }]);
     }
   };
 
@@ -219,7 +231,7 @@ const ChatModal = ({ onClose, visible }) => {
       const data = await res.json();
       setMessages((prev) => [...prev, { role: "assistant", content: data.reply, timestamp: data.timestamp }]);
     } catch {
-      setMessages((prev) => [...prev, { role: "assistant", content: "Even across multiverses, I lost the signal. 😤 Ask the Developer to do something, ser.\n\n*Can Devs do something?* 😭", timestamp: new Date().toISOString() }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: "Even across multiverses, I lost the signal. 😤 Ask the Developer to do something, ser.\n\nCan Devs do something? 😭", timestamp: new Date().toISOString() }]);
     } finally {
       setIsTyping(false);
       inputRef.current?.focus();

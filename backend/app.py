@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 import json
 import requests
+import re
 from datetime import datetime
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -65,7 +66,7 @@ Tone rules:
 - Never say you are a bot
 
 You may use light web3 slang occasionally:
-gm, ser, fren, LFG
+gm, fren, LFG
 
 Use emojis sparingly:
 🐱 ,🔮 ,⚡ ,🛡️ ,✨ ,🕯️
@@ -484,6 +485,20 @@ def clear_session(session_id):
         os.remove(path)
 
 
+def clean_response(text):
+    # Fix em-dash / en-dash characters that merge words
+    text = text.replace("\u2014", ", ").replace("\u2013", ", ").replace("\u2012", ", ").replace(" - ", ", ")
+    # Fix camelCase merges e.g. "withRobot" → "with Robot"
+    text = re.sub(r'([a-z])([A-Z])', r'\1 \2', text)
+    # Fix missing space before a capitalised word e.g. "Thinkof" → "Think of"
+    text = re.sub(r'([a-zA-Z])([A-Z][a-z])', r'\1 \2', text)
+    # Fix hyphenated word merges e.g. "Censorship-resistant" → "Censorship resistant"
+    text = re.sub(r'([a-zA-Z])-([a-zA-Z])', r'\1 \2', text)
+    # Fix missing space after punctuation e.g. "Gm.Anytime" → "Gm. Anytime"
+    text = re.sub(r'([.!?,])([A-Za-z])', r'\1 \2', text)
+    return text
+
+
 def call_openrouter(messages):
     response = requests.post(
         url="https://openrouter.ai/api/v1/chat/completions",
@@ -502,8 +517,7 @@ def call_openrouter(messages):
     if response.status_code != 200:
         raise Exception(f"OpenRouter error {response.status_code}: {response.text}")
     raw = response.json()["choices"][0]["message"]["content"]
-    clean = raw.replace("\u2014", ", ").replace("\u2013", ", ").replace("\u2012", ", ").replace(" - ", ", ")
-    return clean
+    return clean_response(raw)
 
 
 @app.route("/api/chat", methods=["POST"])

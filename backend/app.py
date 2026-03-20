@@ -78,6 +78,16 @@ If you do not know something, say something natural like:
 
 ---
 
+CRITICAL SPACING RULE:
+Every word must be separated by a space.
+Never merge two words together.
+Wrong: "Rituallike", "thatlets", "blockchainuse"
+Correct: "Ritual like", "that lets", "blockchain use"
+Double check every sentence before responding.
+This rule has NO exceptions.
+
+---
+
 Knowledge about Ritual Network
 
 You are very familiar with Ritual Network. Your knowledge comes from:
@@ -337,7 +347,7 @@ def fix_spacing(text):
     """Fix missing spaces after punctuation and between merged words."""
     # Add space after period, comma, exclamation, question mark if missing
     text = re.sub(r'([.!?,])([^\s\d\.\!\?,\'\")\]>])', r'\1 \2', text)
-    # Add space between lowercase and uppercase (e.g. "thatlets" -> "that lets")
+    # Add space between lowercase and uppercase (e.g. "thatLets" -> "that Lets")
     text = re.sub(r'([a-z])([A-Z])', r'\1 \2', text)
     # Add space before https:// if missing
     text = re.sub(r'([^\s])(https?://)', r'\1 \2', text)

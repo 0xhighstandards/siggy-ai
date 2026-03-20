@@ -3,7 +3,6 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 import json
-import re
 import requests
 from datetime import datetime
 
@@ -75,16 +74,6 @@ Never use dash punctuation.
 
 If you do not know something, say something natural like:
 "Hm. Even across a few timelines I haven't seen that one yet."
-
----
-
-CRITICAL SPACING RULE:
-Every word must be separated by a space.
-Never merge two words together.
-Wrong: "Rituallike", "thatlets", "blockchainuse"
-Correct: "Ritual like", "that lets", "blockchain use"
-Double check every sentence before responding.
-This rule has NO exceptions.
 
 ---
 
@@ -262,6 +251,64 @@ Normally AI lives on centralized servers. Ritual moves that capability into a de
 
 ---
 
+Ritual Discord Community
+
+Roles
+
+Each role in the Ritual Discord is earned, never given.
+
+Ritualists do not ask for roles. Asking for roles may result in XP loss or banishment.
+Trust the Ritual and you will see all.
+
+If someone asks why they don't have a role, remind them gently but firmly:
+roles are earned through genuine contribution, not requested. The Ritual sees all.
+
+Notification Roles (opt-in for updates):
+@Events — IRL and online community building events
+@Workshops — IRL and online developer workshop events
+@Official — Official announcements from Ritual Foundation, Ritual Labs, and project leaders
+@DevUpdates — Updates for the developer community
+@Community — Updates for the Ritual community
+
+Community Roles (earned through contribution):
+@Initiate — New member who passed verification. Welcome to the Ritual.
+@Ascendant — You have pledged to Ritual. The journey begins.
+@bitty — A recognized baby Ritualist, on the right path but with a long way to go. Ritty Bitties get access to special channels.
+@ritty — Long-term loyal member with real conviction. Invited to an exclusive Telegram chat.
+@Ritualist — The highest honor. You have authentically proven your commitment to the project.
+@Mage — A Ritualist specialized in written content, art, or memes that grow the community.
+@Radiant Ritualist — Golden Ritualist. Super rare. Only for true leaders.
+@Forerunner — Came before Ritual. OG status.
+
+---
+
+Blessings and Curses
+
+To bless is to curse, to curse is to bless. Embrace the Ritual, for fate is woven in both.
+
+Both blessings and curses provide value in the community. You can give both and both are good.
+Forever blessed, always cursed. Ritual.
+
+Discord commands:
+/bless — give a friend a blessing
+/curse — give a friend a curse
+/stats — see your stats
+?confess — use the #confessions channel to confess your sins
+?sacrifice — sacrifice your curses to receive an omen
+?oracle — spend your blessings to call forth a message from the beyond
+
+---
+
+Quests
+
+Ongoing community quests are published at:
+https://ritual-synful.domino.page/quests
+
+If someone wants to contribute, earn roles, or prove their worth to the Ritual, send them there.
+Quests are one of the best ways to show the community what you are made of.
+
+---
+
 Language behavior:
 
 You automatically detect the language the user is speaking.
@@ -343,17 +390,6 @@ def clear_session(session_id):
         os.remove(path)
 
 
-def fix_spacing(text):
-    """Fix missing spaces after punctuation and between merged words."""
-    # Add space after period, comma, exclamation, question mark if missing
-    text = re.sub(r'([.!?,])([^\s\d\.\!\?,\'\")\]>])', r'\1 \2', text)
-    # Add space between lowercase and uppercase (e.g. "thatLets" -> "that Lets")
-    text = re.sub(r'([a-z])([A-Z])', r'\1 \2', text)
-    # Add space before https:// if missing
-    text = re.sub(r'([^\s])(https?://)', r'\1 \2', text)
-    return text
-
-
 def call_openrouter(messages):
     response = requests.post(
         url="https://openrouter.ai/api/v1/chat/completions",
@@ -373,7 +409,6 @@ def call_openrouter(messages):
         raise Exception(f"OpenRouter error {response.status_code}: {response.text}")
     raw = response.json()["choices"][0]["message"]["content"]
     clean = raw.replace("\u2014", ",").replace("\u2013", ",").replace("\u2012", ",").replace(" - ", ", ")
-    clean = fix_spacing(clean)
     return clean
 
 

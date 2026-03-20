@@ -87,16 +87,16 @@ const renderInline = (text) => {
         </a>
       );
     }
-    const mdParts = part.split(/(\*\*.*?\*\*|\*.*?\*|[^`]+`|~~.*?~~)/g);
+    const mdParts = part.split(/(\*\*.*?\*\*|\*.*?\*|`[^`]+`|~~.*?~~)/g);
     return mdParts.map((md, j) => {
       if (md.startsWith("**") && md.endsWith("**"))
-        return <span key={`${i}-${j}`}> <strong>{md.slice(2, -2)}</strong> </span>;
+        return <strong key={`${i}-${j}`}>{md.slice(2, -2)}</strong>;
       if (md.startsWith("*") && md.endsWith("*"))
-        return <span key={`${i}-${j}`}> <em>{md.slice(1, -1)}</em> </span>;
+        return <em key={`${i}-${j}`}>{md.slice(1, -1)}</em>;
       if (md.startsWith("`") && md.endsWith("`"))
-        return <span key={`${i}-${j}`}> <code className="inline-code">{md.slice(1, -1)}</code> </span>;
+        return <code key={`${i}-${j}`} className="inline-code">{md.slice(1, -1)}</code>;
       if (md.startsWith("~~") && md.endsWith("~~"))
-        return <span key={`${i}-${j}`}> {md.slice(2, -2)} </span>;
+        return <s key={`${i}-${j}`}>{md.slice(2, -2)}</s>;
       return <span key={`${i}-${j}`}>{md}</span>;
     });
   });
@@ -370,7 +370,8 @@ export default function App() {
           <div className="hero-actions">
             <button className="hero-cta" onClick={openChat}>
               <img src={siggy} alt="Siggy" className="cta-avatar" />
-              Chat with Siggy            </button>
+              Chat with Siggy
+            </button>
             <a href="https://ritual.net/about" target="_blank" rel="noreferrer" className="hero-secondary">
               What is Ritual?
             </a>

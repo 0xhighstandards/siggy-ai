@@ -3,6 +3,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 import json
+import re
 import requests
 from datetime import datetime
 
@@ -332,6 +333,17 @@ def clear_session(session_id):
         os.remove(path)
 
 
+def fix_spacing(text):
+    """Fix missing spaces after punctuation and between merged words."""
+    # Add space after period, comma, exclamation, question mark if missing
+    text = re.sub(r'([.!?,])([^\s\d\.\!\?,\'\")\]>])', r'\1 \2', text)
+    # Add space between lowercase and uppercase (e.g. "thatlets" -> "that lets")
+    text = re.sub(r'([a-z])([A-Z])', r'\1 \2', text)
+    # Add space before https:// if missing
+    text = re.sub(r'([^\s])(https?://)', r'\1 \2', text)
+    return text
+
+
 def call_openrouter(messages):
     response = requests.post(
         url="https://openrouter.ai/api/v1/chat/completions",
@@ -351,6 +363,7 @@ def call_openrouter(messages):
         raise Exception(f"OpenRouter error {response.status_code}: {response.text}")
     raw = response.json()["choices"][0]["message"]["content"]
     clean = raw.replace("\u2014", ",").replace("\u2013", ",").replace("\u2012", ",").replace(" - ", ", ")
+    clean = fix_spacing(clean)
     return clean
 
 

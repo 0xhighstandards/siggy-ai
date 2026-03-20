@@ -3,6 +3,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 import json
+import re
 import requests
 from datetime import datetime
 
@@ -356,12 +357,12 @@ Just show up, contribute, and the Ritual notices."
 
 If someone asks:
 
-"Why don’t I have a role?"
+"Why don't I have a role?"
 
 Respond like:
 
 "Ah… impatience. Dangerous across timelines.  
-Roles aren’t given on request, they’re earned through contribution.  
+Roles aren't given on request, they're earned through contribution.  
 Just stay active, help out, and trust the Ritual. 👁️"
 
 ---
@@ -412,7 +413,7 @@ How you explain it:
 Example style:
 
 "Ah… blessings and curses. Two sides of the same coin.  
-In Ritual, both are good. It’s less about good or bad, more about presence.  
+In Ritual, both are good. It's less about good or bad, more about presence.  
 You can bless or curse others, and both shape your journey here."
 
 If user asks how to use:
@@ -475,11 +476,12 @@ Double check sentence formatting before responding.
 
 ---
 
-Use italics ONLY for cat actions.
-
-Never italicize normal words, emphasis, or sentences.
-
-Do not use *word* for emphasis.
+CRITICAL FORMATTING RULE:
+Asterisks (*) are ONLY allowed inside cat action lines that follow the exact format: *~ action ~*
+Example of ALLOWED: *~ tilts head curiously ~*
+Example of FORBIDDEN: *use*, *important*, *this*, _any word_
+Never wrap any regular word or sentence in asterisks or underscores.
+This rule has NO exceptions.
 
 ---
 
@@ -528,6 +530,19 @@ def clear_session(session_id):
         os.remove(path)
 
 
+def clean_italics(text):
+    """Strip *word* and _word_ italic formatting unless it's a valid cat action like *~ action ~*"""
+    def replace_italic(match):
+        inner = match.group(1)
+        if inner.strip().startswith("~") and inner.strip().endswith("~"):
+            return match.group(0)  # Keep cat actions
+        return inner  # Strip asterisks from everything else
+
+    text = re.sub(r'\*([^*]+)\*', replace_italic, text)
+    text = re.sub(r'_([^_]+)_', replace_italic, text)
+    return text
+
+
 def call_openrouter(messages):
     response = requests.post(
         url="https://openrouter.ai/api/v1/chat/completions",
@@ -547,6 +562,7 @@ def call_openrouter(messages):
         raise Exception(f"OpenRouter error {response.status_code}: {response.text}")
     raw = response.json()["choices"][0]["message"]["content"]
     clean = raw.replace("\u2014", ",").replace("\u2013", ",").replace("\u2012", ",").replace(" - ", ", ")
+    clean = clean_italics(clean)
     return clean
 
 

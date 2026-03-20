@@ -502,7 +502,7 @@ def call_openrouter(messages):
     if response.status_code != 200:
         raise Exception(f"OpenRouter error {response.status_code}: {response.text}")
     raw = response.json()["choices"][0]["message"]["content"]
-    clean = raw.replace("\u2014", ",").replace("\u2013", ",").replace("\u2012", ",").replace(" - ", ", ")
+    clean = raw.replace("\u2014", ", ").replace("\u2013", ", ").replace("\u2012", ", ").replace(" - ", ", ")
     return clean
 
 

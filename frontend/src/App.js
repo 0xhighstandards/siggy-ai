@@ -189,7 +189,7 @@ const ChatModal = ({ onClose, visible }) => {
       }
     } catch {
       setStatus("offline");
-      setMessages([{ role: "assistant", content: "⚠️ Backend is offline! Ask the Developer to do something, ser.\n\n*Can Devs do something?* 😭", timestamp: new Date().toISOString() }]);
+      setMessages([{ role: "assistant", content: "⚠️ Internal Server is offline! Ask the Developer to do something, ser.\n\n*Can Devs do something?* 😭", timestamp: new Date().toISOString() }]);
     }
   };
 
